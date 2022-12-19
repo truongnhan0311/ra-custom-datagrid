@@ -8,7 +8,7 @@
   "sideEffects": false,
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel ./src/ -d lib",
+    "build": "",
     "demo": "npm run start --prefix ./demo",
     "demo-install": "yarn install --cwd ./demo && yarn install && npm run install:peers",
     "install:peers": "yarn add -P $(jq -r '.peerDependencies | to_entries | map(\"\\(.key)@\\(.value | tostring)\") | join(\" \")' package.json)",
