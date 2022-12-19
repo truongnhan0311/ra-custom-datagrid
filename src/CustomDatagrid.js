@@ -7,9 +7,10 @@ import get from 'lodash/get';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
 import Button from '@material-ui/core/Button';
 
-//import SelectionDialog from './SelectionDialog';
+import SelectionDialog from './SelectionDialog';
 import LocalStorage from './LocalStorage';
 import {emphasize} from "@material-ui/core";
+import PropTypes from "prop-types";
 
 /**
  *
@@ -36,26 +37,29 @@ class CustomDatagrid extends Component {
 
   getInitialSelection() {
     const {defaultColumns, resource, children, storage} = this.props;
-    const previousSelection = storage.get(resource)
 
+    const previousSelection = storage.get(resource);
+
+    // if we have a previously stored value, let's return it
     if (!isEmpty(previousSelection)) {
-      return previousSelection
+      return previousSelection;
     }
 
+    // if defaultColumns are set let's return them
     if (!isEmpty(defaultColumns)) {
-      return arrayToSelection(defaultColumns)
+      return arrayToSelection(defaultColumns);
     }
 
-    return arrayToSelection(this.getColumnNames())
-
+    // otherwise we fallback on the default behaviour : display all columns
+    return arrayToSelection(this.getColumnNames());
   }
 
   getColumnNames() {
     const {children} = this.props;
-    return filter(React.Children.map(children, field => get(field, ['props', 'source'])))
+    return filter(React.Children.map(children, field => get(field, ['props', 'source'])));
   }
 
-  getColumnNames() {
+  getColumnLabels() {
     const {children} = this.props;
     return filter(
       React.Children.map(
@@ -63,8 +67,8 @@ class CustomDatagrid extends Component {
         field =>
           field && {
             source: get(field, ['props', 'source']),
-            label: get(field, ['props', 'label'])
-          }
+            label: get(field, ['props', 'label']),
+          },
       ),
       item => item && item.source,
     );
@@ -87,15 +91,16 @@ class CustomDatagrid extends Component {
   handleClose = () => this.setState({modalOpened: false});
 
   renderChild = child => {
-    const source = get(child, ['props', 'source'])
+    const source = get(child, ['props', 'source']);
     const {selection} = this.state;
 
+    // Show children without source, or children explicitly visible
     if (!source || selection[source]) {
-      return React.cloneElement(child, {})
+      return React.cloneElement(child, {});
     }
 
     return null;
-  }
+  };
 
 
   render() {
@@ -103,18 +108,24 @@ class CustomDatagrid extends Component {
     const {selection, modalOpened} = this.state;
 
     return (<div>
-        <div style={{float: 'right', marginRight: '1rem'}}>
-          <Button variant="outlined" mini aria-label="add" onClick={this.handleOpen}>
-            <ColumnIcon/>
-          </Button>
-        </div>
-        {modalOpened && (
-          <span/>
-        )}
-        <Datagrid {...rest}>
-          {React.Children.map(children.this.renderChild)}
-        </Datagrid>
-      </div>);
+      <div style={{ float: 'right', marginRight: '1rem' }}>
+        <Button variant="outlined" mini aria-label="add" onClick={this.handleOpen}>
+          <ColumnIcon />
+        </Button>
+      </div>
+      {modalOpened && (
+        <SelectionDialog
+          selection={selection}
+          columns={this.getColumnLabels()}
+          onColumnClicked={this.toggleColumn}
+          onClose={this.handleClose}
+        />
+      )}
+      {modalOpened && (
+        <span/>
+      )}
+      <Datagrid {...rest}>{React.Children.map(children, this.renderChild)}</Datagrid>
+    </div>);
   }
 }
 
@@ -125,6 +136,7 @@ CustomDatagrid.prototype = {
     set: T.func.isRequired,
   }),
 }
+
 
 CustomDatagrid.defaultProps = {
   defaultColumns: [],

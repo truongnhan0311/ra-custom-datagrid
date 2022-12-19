@@ -1,33 +1,32 @@
 import get from 'lodash/get';
 
 const STORAGE_KEY = 'raColumnsConfig';
+
 const getRootValue = () => {
   try {
-    return  JSON.parse(window.localStorage.getItem(STORAGE_KEY));
+    return JSON.parse(window.localStorage.getItem(STORAGE_KEY));
   } catch (e) {
-    return undefined
+    return undefined;
   }
-}
+};
 
 const setRootValue = value => {
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
-  }catch (e) {
-
-  }
-}
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+  } catch (e) {}
+};
 
 const LocalStorage = {
   get(key) {
-      return get(getRootValue(), key)
+    return get(getRootValue(), key);
   },
   set(key, value) {
     const oldValue = getRootValue();
     setRootValue({
       ...oldValue,
-      [key]: value
-    })
-  }
-}
+      [key]: value,
+    });
+  },
+};
 
 export default LocalStorage;

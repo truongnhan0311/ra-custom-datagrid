@@ -26,15 +26,6 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "hard-source-webpack-plugin": "^0.11.1",
     "prettier": "^1.13.7"
   },
   "files": [
@@ -45,8 +36,6 @@
     "docs"
   ],
   "dependencies": {
-    "@babel/plugin-syntax-jsx": "^7.18.6",
-    "@babel/preset-react": "^7.18.6",
     "react-admin": "3.17.3",
     "react-dom": "17.0.2"
   }
