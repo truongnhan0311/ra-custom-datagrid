@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
 import Button from '@material-ui/core/Button';
 
-import SelectionDialog from './SelectionDialog';
+//import SelectionDialog from './SelectionDialog';
 import LocalStorage from './LocalStorage';
 import {emphasize} from "@material-ui/core";
 
@@ -102,8 +102,7 @@ class CustomDatagrid extends Component {
     const {children, defaultColumns, ...rest} = this.props;
     const {selection, modalOpened} = this.state;
 
-    return (
-      <div>
+    return (<div>
         <div style={{float: 'right', marginRight: '1rem'}}>
           <Button variant="outlined" mini aria-label="add" onClick={this.handleOpen}>
             <ColumnIcon/>
