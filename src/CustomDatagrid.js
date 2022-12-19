@@ -129,13 +129,13 @@ class CustomDatagrid extends Component {
   }
 }
 
-CustomDatagrid.prototype = {
-  defaultColumns: T.arrayOf(T.string),
-  storage: T.shape({
-    get: T.func.isRequired,
-    set: T.func.isRequired,
-  }),
-}
+// CustomDatagrid.prototype = {
+//   defaultColumns: T.arrayOf(T.string),
+//   storage: T.shape({
+//     get: T.func.isRequired,
+//     set: T.func.isRequired,
+//   }),
+// }
 
 
 CustomDatagrid.defaultProps = {
