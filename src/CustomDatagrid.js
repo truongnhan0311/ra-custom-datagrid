@@ -1,0 +1,135 @@
+import React, {Component} from 'react'
+import T from 'prop-types';
+import {Datagrid} from 'react-admin';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import get from 'lodash/get';
+import ColumnIcon from '@material-ui/icons/ViewColumn';
+import Button from '@material-ui/core/Button';
+
+import SelectionDialog from './SelectionDialog';
+import LocalStorage from './LocalStorage';
+import {emphasize} from "@material-ui/core";
+
+/**
+ *
+ * @param values
+ * @returns {*}
+ */
+const arrayToSelection = values =>
+  values.reduce((selection, columnName) => {
+    selection[columnName] = true;
+    return selection;
+  }, {});
+
+/**
+ *
+ */
+class CustomDatagrid extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpened: false,
+      selection: this.getInitialSelection(),
+    }
+  }
+
+  getInitialSelection() {
+    const {defaultColumns, resource, children, storage} = this.props;
+    const previousSelection = storage.get(resource)
+
+    if (!isEmpty(previousSelection)) {
+      return previousSelection
+    }
+
+    if (!isEmpty(defaultColumns)) {
+      return arrayToSelection(defaultColumns)
+    }
+
+    return arrayToSelection(this.getColumnNames())
+
+  }
+
+  getColumnNames() {
+    const {children} = this.props;
+    return filter(React.Children.map(children, field => get(field, ['props', 'source'])))
+  }
+
+  getColumnNames() {
+    const {children} = this.props;
+    return filter(
+      React.Children.map(
+        children,
+        field =>
+          field && {
+            source: get(field, ['props', 'source']),
+            label: get(field, ['props', 'label'])
+          }
+      ),
+      item => item && item.source,
+    );
+  }
+
+  updateStorage = () => {
+    this.props.storage.set(this.props.resource, this.state.selection)
+  }
+
+  toggleColumn = columnName => {
+    const previousSelection = this.state.selection;
+    const selection = {
+      ...previousSelection,
+      [columnName]: !previousSelection[columnName],
+    };
+    this.setState({selection}, this.updateStorage)
+  }
+
+  handleOpen = () => this.setState({modalOpened: true});
+  handleClose = () => this.setState({modalOpened: false});
+
+  renderChild = child => {
+    const source = get(child, ['props', 'source'])
+    const {selection} = this.state;
+
+    if (!source || selection[source]) {
+      return React.cloneElement(child, {})
+    }
+
+    return null;
+  }
+
+
+  render() {
+    const {children, defaultColumns, ...rest} = this.props;
+    const {selection, modalOpened} = this.state;
+
+    return (
+      <div>
+        <div style={{float: 'right', marginRight: '1rem'}}>
+          <Button variant="outlined" mini aria-label="add" onClick={this.handleOpen}>
+            <ColumnIcon/>
+          </Button>
+        </div>
+        {modalOpened && (
+          <span/>
+        )}
+        <Datagrid {...rest}>
+          {React.Children.map(children.this.renderChild)}
+        </Datagrid>
+      </div>);
+  }
+}
+
+CustomDatagrid.prototype = {
+  defaultColumns: T.arrayOf(T.string),
+  storage: T.shape({
+    get: T.func.isRequired,
+    set: T.func.isRequired,
+  }),
+}
+
+CustomDatagrid.defaultProps = {
+  defaultColumns: [],
+  storage: LocalStorage,
+}
+
+export default CustomDatagrid;
