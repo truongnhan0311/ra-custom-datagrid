@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, PropsWithChildren} from "react";
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
@@ -10,8 +10,9 @@ import T from 'prop-types';
 // import SelectionDialog from './SelectionDialog';
 import LocalStorage from './LocalStorage';
 
-interface Props {
-
+interface Props extends PropsWithChildren<any> {
+  defaultColumns: any,
+  storage?: any,
 }
 
 interface State {
@@ -31,6 +32,12 @@ class CustomizableDatagrid extends React.Component<any, State> {
       selection: this.getInitialSelection()
     }
   }
+
+  public static defaultProps = {
+    defaultColumns: [],
+    storage: LocalStorage
+  };
+
 
   getInitialSelection() {
     const {defaultColumns, resource, children, storage} = this.props;
