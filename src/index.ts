@@ -1,5 +1,5 @@
-const world = 'world';
+import CustomizableDatagrid from './CustomizableDatagrid';
 
-export function hello(who: string = world): string {
-  return `Hello ${who}! `;
-}
+export  {
+  CustomizableDatagrid
+};
