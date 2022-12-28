@@ -21,6 +21,8 @@ const get_1 = __importDefault(require("lodash/get"));
 const react_admin_1 = require("react-admin");
 const ViewColumn_1 = __importDefault(require("@material-ui/icons/ViewColumn"));
 const Button_1 = __importDefault(require("@material-ui/core/Button"));
+// import SelectionDialog from './SelectionDialog';
+const LocalStorage_1 = __importDefault(require("./LocalStorage"));
 /**
  *
  */
@@ -88,6 +90,10 @@ class CustomizableDatagrid extends react_1.default.Component {
             react_1.default.createElement(react_admin_1.Datagrid, Object.assign({}, rest), react_1.default.Children.map(children, this.renderChild))));
     }
 }
+CustomizableDatagrid.defaultProps = {
+    defaultColumns: [],
+    storage: LocalStorage_1.default
+};
 const arrayToSelection = (values) => values.reduce((selection, columnName) => {
     selection[columnName] = true;
     return selection;
