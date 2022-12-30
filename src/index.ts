@@ -1,3 +1,3 @@
-import CustomizableDatagrid from './CustomizableDatagrid';
+import CustomDatagrid from './CustomDatagrid';
 
-export default CustomizableDatagrid;
+export default CustomDatagrid;

@@ -8,11 +8,11 @@
   "sideEffects": false,
   "files": [
     "*.md",
-    "build",
+    "lib",
     "esm",
     "src"
   ],
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "scripts": {

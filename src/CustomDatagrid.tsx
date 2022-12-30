@@ -7,7 +7,7 @@ import ColumnIcon from '@material-ui/icons/ViewColumn';
 import Button from '@material-ui/core/Button';
 import T from 'prop-types';
 
-// import SelectionDialog from './SelectionDialog';
+import SelectionDialog from './SelectionDialog';
 import LocalStorage from './LocalStorage';
 
 interface Props extends PropsWithChildren<any> {
@@ -23,7 +23,7 @@ interface State {
 /**
  *
  */
-class CustomizableDatagrid extends React.Component<any, State> {
+class CustomDatagrid extends React.Component<any, State> {
   constructor(props: any) {
     super(props);
 
@@ -63,6 +63,9 @@ class CustomizableDatagrid extends React.Component<any, State> {
     return filter(React.Children.map(children, field => get(field, ['props', 'source'])));
   }
 
+  /**
+   *
+   */
   getColumnLabels() {
     const {children} = this.props;
     return filter(
@@ -114,6 +117,7 @@ class CustomizableDatagrid extends React.Component<any, State> {
     const {children, defaultColumns, ...rest} = this.props;
     const {selection, modalOpened} = this.state;
 
+    // @ts-ignore
     return (
       <div>
         <div style={{float: 'right', marginRight: '1rem'}}>
@@ -124,14 +128,14 @@ class CustomizableDatagrid extends React.Component<any, State> {
             <ColumnIcon/>
           </Button>
         </div>
-        {/*{modalOpened && (*/}
-        {/*  <SelectionDialog*/}
-        {/*    selection={selection}*/}
-        {/*    columns={this.getColumnLabels()}*/}
-        {/*    onColumnClicked={this.toggleColumn}*/}
-        {/*    onClose={this.handleClose}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {modalOpened && (
+          <SelectionDialog
+            selection={selection}
+            columns={this.getColumnLabels()}
+            onColumnClicked={this.toggleColumn}
+            onClose={this.handleClose}
+          />
+        )}
         <Datagrid {...rest}>{React.Children.map(children, this.renderChild)}</Datagrid>
       </div>
     );
@@ -145,4 +149,4 @@ const arrayToSelection = (values: any[]) =>
     return selection;
   }, {});
 
-export default CustomizableDatagrid;
+export default CustomDatagrid;
