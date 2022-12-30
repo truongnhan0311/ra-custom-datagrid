@@ -68,7 +68,7 @@ class CustomDatagrid extends React.Component<any, State> {
    */
   getColumnLabels() {
     const {children} = this.props;
-    return filter(
+    const data = filter(
       React.Children.map(
         children,
         field =>
@@ -79,6 +79,8 @@ class CustomDatagrid extends React.Component<any, State> {
       ),
       item => item && item.source,
     );
+    console.log(data);
+    return data;
   }
 
   handleOpen = (event: React.MouseEvent<HTMLElement>) => {
