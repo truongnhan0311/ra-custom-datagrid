@@ -1,11 +1,10 @@
-import React, {Component, PropsWithChildren} from "react";
+import React, {PropsWithChildren} from "react";
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import {Datagrid} from 'react-admin';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
 import Button from '@material-ui/core/Button';
-import T from 'prop-types';
 
 import SelectionDialog from './SelectionDialog';
 import LocalStorage from './LocalStorage';
@@ -20,10 +19,15 @@ interface State {
   modalOpened?: boolean
 }
 
+interface Column {
+  source: string
+  label ?: string
+
+}
 /**
  *
  */
-class CustomDatagrid extends React.Component<any, State> {
+class CustomDatagrid extends React.Component<any, State, Column> {
   constructor(props: any) {
     super(props);
 
@@ -68,7 +72,7 @@ class CustomDatagrid extends React.Component<any, State> {
    */
   getColumnLabels() {
     const {children} = this.props;
-    const data = filter(
+    return filter(
       React.Children.map(
         children,
         field =>
@@ -79,8 +83,6 @@ class CustomDatagrid extends React.Component<any, State> {
       ),
       item => item && item.source,
     );
-    console.log(data);
-    return data;
   }
 
   handleOpen = (event: React.MouseEvent<HTMLElement>) => {

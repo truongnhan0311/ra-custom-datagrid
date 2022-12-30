@@ -12,28 +12,29 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconClose from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-import LocalStorage from "./LocalStorage";
+import get from "lodash/get";
+
+interface Column {
+  source: string
+  label ?: string
+
+}
 
 interface Props extends PropsWithChildren<any> {
-  columns: [
-    {
-      label: any
-      source: any
-    }
-  ],
+  columns: Column[],
   selection: any,
 }
 
 /**
  *
  */
-class SelectionDialog extends React.Component<Props> {
+class SelectionDialog extends React.Component<Props, Column > {
   constructor(props: any) {
     super(props);
   }
 
   public static defaultProps = {
-    columns: [],
+    columns: [] ,
   };
 
 
@@ -45,7 +46,6 @@ class SelectionDialog extends React.Component<Props> {
   render() {
     const {columns, selection, onClose, resource} = this.props;
 
-    // @ts-ignore
     return (
       <Dialog maxWidth="xs" aria-labelledby="ra-columns-dialog-title" onClose={onClose} open>
         <DialogTitle id="ra-columns-dialog-title">Configuration</DialogTitle>
