@@ -5,10 +5,12 @@ import get from 'lodash/get';
 import {Datagrid} from 'react-admin';
 import ColumnIcon from '@material-ui/icons/ViewColumn';
 import Button from '@material-ui/core/Button';
-
 import SelectionDialog from './SelectionDialog';
-import LocalStorage from './LocalStorage';
+import Columns from "./LocalStorage/Columns";
 
+/**
+ *
+ */
 interface Props extends PropsWithChildren<any> {
   defaultColumns: any,
   storage?: any,
@@ -39,7 +41,7 @@ class CustomDatagrid extends React.Component<any, State, Column> {
 
   public static defaultProps = {
     defaultColumns: [],
-    storage: LocalStorage
+    storage: Columns
   };
 
 

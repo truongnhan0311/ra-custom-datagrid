@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-const STORAGE_KEY = 'raColumnsConfig';
+const STORAGE_KEY = 'raInlineRow';
 
 // Very basic storage helper
 // values are stored in browser localStorage
@@ -20,7 +20,7 @@ const setRootValue = (value: any) => {
   }
 };
 
-const LocalStorage = {
+const InlineEdit = {
   get(key: string) {
     return get(getRootValue(), key);
   },
@@ -33,4 +33,4 @@ const LocalStorage = {
   },
 };
 
-export default LocalStorage;
+export default InlineEdit;
